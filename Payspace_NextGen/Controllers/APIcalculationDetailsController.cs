@@ -74,52 +74,76 @@ namespace Payspace_NextGen.Controllers
         [ResponseType(typeof(calculationDetail))]
         public async Task<IHttpActionResult> PostProcesscalculation(Calculation calculation)
         {
+            decimal impostfinal = 0;
             calculation.DateGenerate = DateTime.Now;
             APIEmployesController employesController = new APIEmployesController();
             foreach (var item in employesController.GetEmployes())
             {
                 decimal salary = item.Salary;
-                decimal impost = GetcalculationResultRate(item);
+                decimal impost = 0;
                 // Include value salary on the calculation detail
                 await PostcalculationDetail(new calculationDetail()
                 {
                     Calculation = calculation,
                     EmployeID = item.CPF,
                     DetailName = "Salary at month (" + calculation.Month.ToString() + "/" + calculation.Year.ToString() + ")",
-                    DetailValue = salary,                                        
+                    DetailValue = salary,
                 });
-
-                // Include value TaxRate on the calculation detail, consult the table and calculation of tax.
-                await PostcalculationDetail(new calculationDetail()
+                if (true)
                 {
-                    Calculation = calculation,
-                    EmployeID = item.CPF,
-                    DetailName = "Impost at month "+ impost.ToString() + "% (" + calculation.Month.ToString() + "/" + calculation.Year.ToString()+")",
-                    DetailValue = salary * (impost/100)
-                });
 
-                //Include the liquid salary of month
-                // Include value TaxRate on the calculation detail, consult the table and calculation of tax.
-                await PostcalculationDetail(new calculationDetail()
+                }
+                if(item.PostCode.TaxRate == "Progressive")
                 {
-                    Calculation = calculation,
-                    EmployeID = item.CPF,
-                    DetailName = "payment salary(" + calculation.Month.ToString() + "/" + calculation.Year.ToString() + ")",
-                    DetailValue = salary - (salary * (impost / 100))
-                });
-
+                    foreach (RateValue item2 in (from p in item.PostCode.Type.RateValues
+                                                where p.From <= item.Salary
+                                                select p))
+                    {
+                        impost = item2.Rate;
+                        decimal valueprogressive = 0;
+                        if (item.Salary >= item2.To)
+                        {
+                            valueprogressive = item2.To;
+                        }
+                        else
+                        {
+                            valueprogressive = salary - item2.From;
+                        }
+                        await PostcalculationDetail(new calculationDetail()
+                        {
+                            Calculation = calculation,
+                            EmployeID = item.CPF,
+                            DetailName = "Impost " + impost.ToString() + "% Tax - Base From:"+item2.From.ToString()+" To:"+valueprogressive.ToString()+" (" + calculation.Month.ToString() + "/" + calculation.Year.ToString() + ")",
+                            DetailValue = valueprogressive * (impost / 100)
+                        });
+                    }
+                }
+                else
+                {
+                    impost += GetcalculationResultRateNoProgressive(item);
+                    // Include value TaxRate on the calculation detail, consult the table and calculation of tax.
+                    await PostcalculationDetail(new calculationDetail()
+                    {
+                        Calculation = calculation,
+                        EmployeID = item.CPF,
+                        DetailName = "Impost at month " + impost.ToString() + "% (" + calculation.Month.ToString() + "/" + calculation.Year.ToString() + ")",
+                        DetailValue = salary * (impost / 100)
+                    });
+                }
+                
+                
             }
-            return CreatedAtRoute("DefaultApi", new { },new object());
+            return CreatedAtRoute("DefaultApi", new { }, new object());
         }
 
         // POST: api/apicalcrates
         [ResponseType(typeof(calculationDetail))]
-        public decimal  GetcalculationResultRate(Employe employe)
+        public decimal GetcalculationResultRateNoProgressive(Employe employe)
         {
             decimal valuenow = 0;
             foreach (RateValue item in (from p in employe.PostCode.Type.RateValues
-                                         where p.From <= employe.Salary && p.To >= employe.Salary
-                                         select p))
+                                        where p.From <= employe.Salary && p.To >= employe.Salary
+                                        select p))
             {
                 valuenow = item.Rate;
             }
