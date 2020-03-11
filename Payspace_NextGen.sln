@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payspace_NextGen", "Payspace_NextGen\Payspace_NextGen.csproj", "{5BE90257-328E-4EF5-A112-E9F38A1B706B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payspace_NextGenTests1", "Payspace_NextGenTests1\Payspace_NextGenTests1.csproj", "{0407DD62-3B26-4E62-8311-274DBFC5D4B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payspace_NextGenTests2", "Payspace_NextGenTests2\Payspace_NextGenTests2.csproj", "{2B0726F2-2C31-4F29-A7B3-5908222DB2D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{5BE90257-328E-4EF5-A112-E9F38A1B706B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BE90257-328E-4EF5-A112-E9F38A1B706B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BE90257-328E-4EF5-A112-E9F38A1B706B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0407DD62-3B26-4E62-8311-274DBFC5D4B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0407DD62-3B26-4E62-8311-274DBFC5D4B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0407DD62-3B26-4E62-8311-274DBFC5D4B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0407DD62-3B26-4E62-8311-274DBFC5D4B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B0726F2-2C31-4F29-A7B3-5908222DB2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B0726F2-2C31-4F29-A7B3-5908222DB2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B0726F2-2C31-4F29-A7B3-5908222DB2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B0726F2-2C31-4F29-A7B3-5908222DB2D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
